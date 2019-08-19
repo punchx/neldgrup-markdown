@@ -15,5 +15,19 @@
   "bugs": {
     "url": "https://github.com/punchx/pva-moldova-layouts/issues"
   },
-  "homepage": "https://github.com/punchx/pva-moldova-layouts#readme"
+  "homepage": "https://github.com/punchx/pva-moldova-layouts#readme",
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "del": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-debug": "^4.0.0",
+    "gulp-file-include": "^2.1.0",
+    "gulp-flatten": "^0.4.0",
+    "gulp-posthtml": "^3.0.4",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-watch": "^5.0.1",
+    "posthtml-beautify": "^0.2.6"
+  },
+  "devDependencies": {}
 }
