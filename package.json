@@ -1,0 +1,19 @@
+{
+  "name": "pva-moldova-layouts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punchx/pva-moldova-layouts.git"
+  },
+  "author": "Rodion Rusu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/punchx/pva-moldova-layouts/issues"
+  },
+  "homepage": "https://github.com/punchx/pva-moldova-layouts#readme"
+}
