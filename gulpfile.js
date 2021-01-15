@@ -1,25 +1,29 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const sourcemaps = require('gulp-sourcemaps');
-const debug = require('gulp-debug');
-const del = require('del');
-const browserSync = require('browser-sync').create();
-const posthtml = require('gulp-posthtml');
-const flatten = require('gulp-flatten');
-const include = require('gulp-file-include');
+import gulp from 'gulp';
+import sass from 'gulp-sass';
+import sourcemaps from 'gulp-sourcemaps';
+import debug from 'gulp-debug';
+import del from 'del';
+import browserSync from 'browser-sync';
+import posthtml from 'gulp-posthtml';
+import flatten from 'gulp-flatten';
+import include from 'gulp-file-include';
+import beautify from 'posthtml-beautify';
+import autoprefixer from 'gulp-autoprefixer';
 
-gulp.task('styles', () => {
+browserSync.create();
+
+export const styles = () => {
   return gulp
     .src('./src/style.scss')
     .pipe(debug({ title: 'sass compilation' }))
     .pipe(sourcemaps.init())
     .pipe(sass())
+    .pipe(autoprefixer())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./public/css'));
-});
+}
 
-gulp.task('html', () => {
-  const beautify = require('posthtml-beautify');
+export const html = () => {
   return gulp
     .src('./src/*.html')
     .pipe(debug({ title: 'html processing' }))
@@ -31,47 +35,43 @@ gulp.task('html', () => {
     )
     .pipe(posthtml([beautify()]))
     .pipe(gulp.dest('./public'));
-});
+}
 
-gulp.task('assets', () => {
+export const assets = () => {
   return gulp
     .src('./src/assets/**/*.*', { since: gulp.lastRun('assets') })
     .pipe(debug({ title: 'assets pricessing' }))
     .pipe(flatten())
     .pipe(gulp.dest('./public/assets'));
-});
+}
 
-gulp.task('modules:assets', () => {
+export const modulesAssets = () => {
   return gulp
     .src('./src/components/**/*.{png,svg}', {
-      since: gulp.lastRun('modules:assets')
+      since: gulp.lastRun('modulesAssets')
     })
-    .pipe(debug({ title: 'modules:assets processing' }))
+    .pipe(debug({ title: 'moduleAssets processing' }))
     .pipe(flatten())
     .pipe(gulp.dest('./public/assets/'));
-});
+}
 
-gulp.task('clean', () => {
+export const clean = () => {
   return del('./public');
-});
+}
 
-gulp.task('watch', () => {
-  gulp.watch('./src/**/*.html', gulp.series('html'));
-  gulp.watch('./src/**/*.*', gulp.series('styles'));
-  gulp.watch('./src/assets/*.*', gulp.series('assets'));
-  gulp.watch('./src/components/**/*.{png,svg}', gulp.series('modules:assets'));
-});
+export const watch =  () => {
+  gulp.watch('./src/**/*.html', gulp.series(html));
+  gulp.watch('./src/**/*.*', gulp.series(styles));
+  gulp.watch('./src/assets/*.*', gulp.series(assets));
+  gulp.watch('./src/components/**/*.{png,svg}', gulp.series(modulesAssets));
+}
 
-gulp.task('serve', () => {
+export const serve =  () => {
   browserSync.init({
     server: './public'
   });
   browserSync.watch('./public/**/*.*').on('change', browserSync.reload);
-});
+}
 
-gulp.task(
-  'build',
-  gulp.series(gulp.parallel('html', 'styles', 'modules:assets', 'assets'))
-);
-
-gulp.task('dev', gulp.series('build', gulp.parallel('watch', 'serve')));
+export const build = gulp.series(gulp.parallel(html, styles, modulesAssets, assets));
+export default gulp.series(build, gulp.parallel(watch, serve));

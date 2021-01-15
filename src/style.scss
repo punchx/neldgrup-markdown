@@ -1,2 +1,7 @@
-@import 'components/Header/header.scss';
-@import 'components/Title/title.scss';
+@import "normalize.scss";
+@import "components/Header/header.scss";
+@import "components/Title/title.scss";
+img {
+  filter: grayscale(50%);
+  object-fit: fill;
+}
